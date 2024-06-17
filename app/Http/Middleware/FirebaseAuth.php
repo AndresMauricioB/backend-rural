@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
 
@@ -12,11 +11,12 @@ class FirebaseAuth
 {
     protected $auth;
 
-    public function __construct()
+    public function __construct(Auth $auth)
     {
         // Configura Firebase usando el archivo de credenciales JSON
-        $firebase = (new Factory)->withServiceAccount(base_path('config/firebase/authrural-firebase-adminsdk-stc5l-c3dca9f317.json'));
-        $this->auth = $firebase->createAuth();
+       // $firebase = (new Factory)->withServiceAccount(base_path('config/firebase/authrural-firebase-adminsdk-stc5l-c3dca9f317.json'));
+        //$this->auth = $firebase->createAuth();
+        $this->auth = $auth;
     }
 
     /**
