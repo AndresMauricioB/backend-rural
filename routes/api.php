@@ -34,4 +34,8 @@ Route::middleware('firebaseAuth')->group(function () {
     });
 
     // Otras rutas protegidas
+    Route::get('person/create', [App\Http\Controllers\v1\Person\Create::class, 'create']);
 });
+
+
+
