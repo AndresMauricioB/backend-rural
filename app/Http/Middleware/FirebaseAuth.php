@@ -12,9 +12,9 @@ class FirebaseAuth
 
     public function __construct()
     {
-        // Configura Firebase usando el archivo de credenciales JSON
-        $firebase = (new Factory)->withServiceAccount(config('config/firebase/authrural-firebase-adminsdk-stc5l-c3dca9f317.json'));
-        $this->auth = $firebase->createAuth();
+      // Configura Firebase usando el archivo de credenciales JSON
+      $firebase = (new Factory)->withServiceAccount(base_path('config/firebase/authrural-firebase-adminsdk-stc5l-c3dca9f317.json'));
+      $this->auth = $firebase->createAuth();
     }
 
     /**
@@ -27,20 +27,22 @@ class FirebaseAuth
     public function handle(Request $request, Closure $next)
     {
         $idToken = $request->bearerToken();
+
         if (!$idToken) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         try {
             $verifiedIdToken = $this->auth->verifyIdToken($idToken);
+            $request->attributes->add(['firebaseUser' => $verifiedIdToken]);
 
-            // Extraer el UID
-            //$uid = $verifiedIdToken->claims()->get('sub');
-            //$request->attributes->set('uid', $uid);
+             // Extraer el UID
+             $uid = $verifiedIdToken->claims()->get('sub');
+             $request->attributes->set('uid', $uid);
+             
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return $next($request);
     }
     

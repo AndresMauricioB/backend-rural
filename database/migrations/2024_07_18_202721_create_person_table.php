@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('department')->nullable();
             $table->string('country')->nullable();
+            $table->string('uid')->nullable();
             $table->timestamps();
         });
     }
